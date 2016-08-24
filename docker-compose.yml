@@ -1,0 +1,10 @@
+chatting:
+  depends_on:
+    - mysql
+    - golang
+mysql:
+  image: mysql
+  ports:
+    - 3306:3306
+golang:
+  image: golang
