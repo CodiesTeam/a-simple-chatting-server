@@ -1,10 +1,25 @@
 chatting:
-  depends_on:
+  image: golang:latest
+  working_dir: /go/src/simple-chatting
+  command: go run ./entrypoint.go
+  volumes:
+    - ./src/go:/go/src/simple-chatting
+  ports:
+    - 8091:8091
+  links:
     - mysql
-    - golang
+    - phpmyadmin
 mysql:
-  image: mysql
+  image: mysql:latest
+  volumes:
+    - ./db:/data
+  environment:
+    MYSQL_ROOT_PASSWORD: root
   ports:
     - 3306:3306
-golang:
-  image: golang
+phpmyadmin:
+  image: phpmyadmin/phpmyadmin:latest
+  ports:
+    - 8080:80
+  links:
+    - mysql:db
