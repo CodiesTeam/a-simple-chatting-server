@@ -21,5 +21,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// FIXME:didn't work.
 	db.CreateDB("testdb")
 }

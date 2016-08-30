@@ -1,5 +1,5 @@
 goserver:
-  build: ./go/
+  image: golang:latest
   working_dir: /go/src/a-simple-chatting-server
   command: go run ./src/go/entrypoint.go
   volumes:
