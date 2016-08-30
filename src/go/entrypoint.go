@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"a-simple-chatting-server/src/go/db"
 )
 
 type Hello struct{}
@@ -20,4 +21,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	db.CreateDB("testdb")
 }
