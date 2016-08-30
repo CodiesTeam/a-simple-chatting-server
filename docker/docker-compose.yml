@@ -12,7 +12,7 @@ goserver:
 mysql:
   image: mysql:latest
   volumes:
-    - ../db:/data
+    - ../src/db:/data
   environment:
     MYSQL_ROOT_PASSWORD: root
   ports:
