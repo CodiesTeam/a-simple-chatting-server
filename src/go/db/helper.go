@@ -3,29 +3,47 @@ package db
 import (
     "database/sql"
     "fmt"
+    "os"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func CreateDB(name string) {
-    db, err = sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/")
-    if err != nil {
-        panic(err)
-    }
-    defer db.Close()
+var (
+    username string
+    password string
+    host string
+    port string
+    database string
 
-    _, err = db.Exec("CREATE DATABASE " + name)
-    if err != nil {
-        panic(err)
+    db *sql.DB
+)
+
+func config() {
+    // initialized configurations
+    username = os.Getenv("MYSQL_USERNAME")
+    password = os.Getenv("MYSQL_PASSWORD")
+    host = os.Getenv("MYSQL_PORT_3306_TCP_ADDR")
+    if host == "" {
+        host = "localhost"
     }
 
-    _, err = db.Exec("USE " + name)
-    if err != nil {
-        panic(err)
+    port = os.Getenv("MYSQL_PORT_3306_TCP_PORT")
+    if port == "" {
+        port = "3306"
     }
 
-    _, err = db.Exec("CREATE TABLE test ( id integer, name varchar(32) )")
-    if err != nil {
+    database = os.Getenv("MYSQL_INSTANCE_NAME")
+}
+
+func connetDB() error {
+    // connect database with configurations
+    uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, host, port, database)
+    if db, err := sql.Open("mysql", uri); err != nil {
         panic(err)
     }
-    fmt.Printf("Create db successfully!")
+    return
+}
+
+func init() {
+	config()
+    connetDB()
 }
